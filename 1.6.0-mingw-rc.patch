@@ -1,0 +1,31 @@
+--- origsrc/enchant-1.6.0/configure.in	2015-10-27 21:51:12.500793900 -0500
++++ src/enchant-1.6.0/configure.in	2015-10-27 23:38:54.015302100 -0500
+@@ -38,6 +38,7 @@ AC_PROG_MAKE_SET
+ AC_STDC_HEADERS
+ AC_LIBTOOL_WIN32_DLL
+ AM_PROG_LIBTOOL
++AC_LIBTOOL_RC
+ gt_TYPE_SSIZE_T
+ 
+ AC_C_CONST
+@@ -180,7 +181,7 @@ AC_SUBST(ENCHANT_CFLAGS)
+ AC_SUBST(ENCHANT_LIBS)
+ 
+ AC_MSG_CHECKING([for native Win32])
+-case "$target" in
++case "$host" in
+   *-*-mingw*)
+     native_win32=yes
+     SOCKET_LIBS='-lws2_32 -ldnsapi'
+--- origsrc/enchant-1.6.0/src/Makefile.am	2015-10-27 21:51:12.355775500 -0500
++++ src/enchant-1.6.0/src/Makefile.am	2015-10-27 23:38:03.531391400 -0500
+@@ -22,8 +22,7 @@ libenchant_include_HEADERS = enchant.h e
+ EXTRA_DIST=enchant.i
+ 
+ if OS_WIN32
+-
+ @ENCHANT_WIN32_RESOURCE@ : libenchant.rc
+-	$(top_srcdir)/lt-compile-resource libenchant.rc @ENCHANT_WIN32_RESOURCE@
++	$(LIBTOOL) --mode=compile --tag=RC $(RC) -DBUILDNUMBER=0 -i $< -o $@
+ endif
+ 

@@ -3,7 +3,7 @@ inherit cross
 
 NAME="mingw64-x86_64-enchant"
 VERSION=1.6.0
-RELEASE=2
+RELEASE=3
 CATEGORY="Devel"
 SUMMARY="Spell checking library for Win64 toolchain"
 DESCRIPTION="The project aims to provide an efficient extensible abstraction
@@ -12,12 +12,19 @@ provide a generic interface into various existing spell checking libraries."
 HOMEPAGE="http://www.abisource.com/projects/enchant/"
 SRC_URI="http://www.abisource.com/downloads/enchant/${VERSION}/enchant-${VERSION}.tar.gz"
 SRC_DIR="enchant-${VERSION}"
+PATCH_URI="
+	http://pkgs.fedoraproject.org/cgit/mingw-enchant.git/plain/enchant-remove-define-enchant-global-module-dir.patch
+	1.6.0-cross-pkg-config.patch
+	1.6.0-mingw-rc.patch
+"
 
+ACLOCAL_FLAGS="-I ac-helpers"
 CYGCONF_ARGS="
+	--disable-static
 	--disable-aspell
 	--disable-hspell
 	--disable-ispell
-	--enable-myspell --without-system-myspell
+	--enable-myspell --with-system-myspell
 	--disable-uspell
 	--disable-zemberek
 "
