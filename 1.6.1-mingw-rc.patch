@@ -1,0 +1,31 @@
+--- origsrc/enchant-1.6.1/configure.ac	2017-07-24 10:12:23.688314100 -0500
++++ src/enchant-1.6.1/configure.ac	2017-07-24 10:15:26.778361300 -0500
+@@ -41,6 +41,7 @@ AC_PROG_LN_S
+ AC_PROG_MAKE_SET
+ AC_HEADER_STDC
+ LT_INIT([win32-dll])
++LT_LANG([Windows Resource])
+ ENCHANT_LT_OBJDIR=$lt_cv_objdir
+ AC_SUBST(ENCHANT_LT_OBJDIR)
+ gt_TYPE_SSIZE_T
+@@ -184,7 +185,7 @@ AC_SUBST(ENCHANT_CFLAGS)
+ AC_SUBST(ENCHANT_LIBS)
+ 
+ AC_MSG_CHECKING([for native Win32])
+-case "$target" in
++case "$host" in
+   *-*-mingw*)
+     native_win32=yes
+     SOCKET_LIBS='-lws2_32 -ldnsapi'
+--- origsrc/enchant-1.6.1/src/Makefile.am	2017-04-04 16:13:57.000000000 -0500
++++ src/enchant-1.6.1/src/Makefile.am	2017-07-24 10:12:54.386345300 -0500
+@@ -30,8 +30,7 @@ endif
+ EXTRA_DIST=enchant.i
+ 
+ if OS_WIN32
+-
+ @ENCHANT_WIN32_RESOURCE@ : libenchant.rc
+-	$(top_srcdir)/lt-compile-resource libenchant.rc @ENCHANT_WIN32_RESOURCE@
++	$(LIBTOOL) --mode=compile --tag=RC $(RC) -DBUILDNUMBER=0 -i $< -o $@
+ endif
+ 

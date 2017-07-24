@@ -2,20 +2,20 @@ CROSS_HOST="x86_64-w64-mingw32"
 inherit cross
 
 NAME="mingw64-x86_64-enchant"
-VERSION=1.6.0
-RELEASE=3
+VERSION=1.6.1
+RELEASE=1
 CATEGORY="Devel"
 SUMMARY="Spell checking library for Win64 toolchain"
 DESCRIPTION="The project aims to provide an efficient extensible abstraction
 for dealing with different spell checking libraries. Enchant is meant to
 provide a generic interface into various existing spell checking libraries."
-HOMEPAGE="http://www.abisource.com/projects/enchant/"
-SRC_URI="http://www.abisource.com/downloads/enchant/${VERSION}/enchant-${VERSION}.tar.gz"
+HOMEPAGE="https://abiword.github.io/enchant/"
+SRC_URI="https://github.com/AbiWord/enchant/releases/download/enchant-${VERSION//./-}/enchant-${VERSION}.tar.gz"
 SRC_DIR="enchant-${VERSION}"
 PATCH_URI="
-	http://pkgs.fedoraproject.org/cgit/mingw-enchant.git/plain/enchant-remove-define-enchant-global-module-dir.patch
-	1.6.0-cross-pkg-config.patch
-	1.6.0-mingw-rc.patch
+	1.6.1-mingw-global-module-dir.patch
+	1.6.1-mingw-rc.patch
+	1.6.1-disable-zemberek.patch
 "
 
 ACLOCAL_FLAGS="-I ac-helpers"
